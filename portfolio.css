@@ -205,7 +205,9 @@ footer a { color: var(--ink); text-decoration: none; }
   .system-content h3 { font-size: 2.3rem; }
   .carousel-footer { padding: 10px 3vw 0; }
   .demo-panel, .source-panel { grid-column: 1; }
-  .demo-panel iframe { height: 610px; }
+  .demo-panel iframe { height: clamp(640px, 86svh, 900px); }
+  .panel-heading { padding: 16px; gap: 12px; }
+  .close-panel { width: 44px; height: 44px; }
   .source-browser { grid-template-columns: 1fr; }
   .source-tree { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
   .source-file { max-width: 100%; }

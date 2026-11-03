@@ -1,0 +1,82 @@
+/* Shared touch-first refinements for the interactive project previews. */
+* { -webkit-tap-highlight-color: transparent; }
+button, input, select, textarea { font: inherit; }
+button, input, select { touch-action: manipulation; }
+button { min-height: 44px; }
+input, select, textarea { max-width: 100%; }
+
+@media (max-width: 700px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body { padding: 8px; }
+  .demo { min-height: 0; border-radius: 12px; }
+  .demo-top { align-items: flex-start; flex-wrap: wrap; gap: 10px; padding: 14px; }
+  .demo-title { font-size: clamp(1rem, 5vw, 1.25rem); }
+  .demo-content { padding: 14px; }
+  .demo-field input, .demo-field select { min-height: 44px; font-size: 16px; }
+  .demo-btn { min-height: 46px; }
+  .dental-booking { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .dental-booking h2 { font-size: clamp(1.45rem, 7vw, 1.75rem); }
+  .dentist-card { padding: 16px; }
+  .appointment-row { align-items: center; flex-wrap: wrap; }
+
+  .recipe-screen { min-height: calc(100svh - 16px); padding: 10px; border-radius: 14px; }
+  .topbar { height: auto; min-height: 58px; grid-template-columns: 44px minmax(0, 1fr) 20px; gap: 6px; }
+  .title { gap: 6px; font-size: clamp(18px, 5vw, 28px); text-align: center; }
+  .back { width: 44px; height: 44px; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-inline: 0; }
+  .field input, .field textarea { min-height: 46px; font-size: 16px; }
+  .field textarea { height: 110px; }
+  .work-lists { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-block: 14px; }
+  .list-box, .photo-box { height: 132px; }
+  .actions { flex-wrap: wrap; gap: 8px; }
+  .main-button { flex: 1 1 42%; min-width: 0; min-height: 50px; padding-inline: 10px; font-size: 13px; }
+  dialog { width: calc(100vw - 24px); max-width: 640px; padding: 16px; }
+  .saved-row { align-items: center; flex-wrap: wrap; }
+
+  .game { min-height: calc(100svh - 16px); padding: 0 10px 14px; border-radius: 16px; }
+  .toolbar { gap: 8px; }
+  .stat-field input { width: 54px; min-height: 44px; }
+  .action { min-height: 44px; padding-inline: 12px; }
+  .board { min-height: 250px; gap: 3px; padding-inline: 2px; }
+  .rod { min-height: 220px; touch-action: manipulation; }
+  .actions-foot { gap: 8px; }
+
+  /* Keep the station preview content-sized so its actions stay near the cards. */
+  .manager { min-height: 0; padding: 10px; grid-template-rows: auto auto auto auto auto; align-content: start; }
+  .carousel { grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 5px; }
+  .manager .carousel { min-height: 164px; }
+  .arrow { width: 44px; height: 44px; }
+  .cards { gap: 5px; }
+  .station { min-height: 112px; height: 112px; gap: 3px; padding: 6px 2px 8px; border-radius: 15px; }
+  .station .train-icon { width: 44px; border-radius: 12px; }
+  .station .train-icon::after {
+    content: "";
+    left: 16%; right: 16%; bottom: 7%; height: 22%;
+    background:
+      radial-gradient(circle at 25% 50%, #fff 0 4px, transparent 4.5px),
+      radial-gradient(circle at 75% 50%, #fff 0 4px, transparent 4.5px);
+  }
+  .station-name { font-size: 9px; line-height: 1; }
+  .station-name { overflow-wrap: anywhere; }
+  .header { min-height: 48px; }
+  .header h1 { font-size: 22px; }
+  .legend { gap: 2px; font-size: 7px; }
+  .legend span { gap: 4px; }
+  .legend i { width: 9px; height: 9px; }
+  .line-name { min-width: 0; padding: 8px 18px; font-size: 16px; }
+  .bottom { align-items: center; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
+  .bottom > .action:nth-child(-n + 2) { flex: 1 1 40%; }
+  .bottom > .action { min-height: 44px; padding: 0 8px; border-radius: 9px; font-size: 12px; }
+  .move-label { font-size: 10px; }
+  .move-input { width: 52px; height: 44px; min-height: 44px; }
+  .status { font-size: 11px; line-height: 1.2; }
+  .overlay { width: calc(100% - 18px); max-height: calc(100svh - 32px); padding: 18px; overflow: auto; }
+}
+
+@media (max-width: 380px) {
+  .demo-top { flex-direction: column; }
+  .recipe-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .main-button { flex-basis: 100%; }
+  .legend { flex-wrap: wrap; }
+  .line-choice { min-width: 0; width: 100%; }
+}

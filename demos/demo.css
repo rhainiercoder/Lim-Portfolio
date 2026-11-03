@@ -115,3 +115,30 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
   .train-head { align-items: start; flex-direction: column; }
   .dental-booking { grid-template-columns: 1fr; }
 }
+/* Touch-first sizing and narrow-phone refinements. */
+.demo-btn, .recipe-item, .hanoi-rod, .station-arrow, .station-card,
+.dental-form input, .dental-form select { min-height: 44px; }
+.hanoi-rod { touch-action: manipulation; }
+.station-arrow { min-width: 44px; min-height: 44px; }
+.station-card { touch-action: manipulation; }
+.appointment-row { align-items: center; flex-wrap: wrap; }
+.appointment-row .demo-btn { flex: 0 0 auto; }
+@media (max-width: 420px) {
+  body { padding: 6px; }
+  .demo { border-radius: 10px; }
+  .demo-top { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .demo-notice { font-size: .64rem; }
+  .recipe-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .recipe-title, .title { font-size: clamp(20px, 6vw, 28px); }
+  .recipe-screen, .train-panel, .hanoi { min-width: 0; }
+  .hanoi-controls { align-items: stretch; }
+  .hanoi-controls .demo-btn { flex: 1 1 42%; }
+  .hanoi-board { min-height: 225px; }
+  .station-carousel { grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 5px; }
+  .station-card { padding-inline: 3px; }
+  .station-name { overflow-wrap: anywhere; }
+  .train-legend { position: static; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .train-head { align-items: center; }
+  .train-actions { align-items: stretch; }
+  .train-actions .demo-field { flex-wrap: wrap; justify-content: center; }
+}

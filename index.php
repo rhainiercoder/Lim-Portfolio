@@ -79,7 +79,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f4ef">
   <title><?= e($name) ?> | Portfolio</title>
-  <link rel="stylesheet" href="portfolio.css?v=20261026a08">
+  <link rel="stylesheet" href="portfolio.css?v=20261103m1">
 </head>
   <body>
   <div class="site-shell">
