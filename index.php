@@ -148,7 +148,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
     </div></div><div class="contact-form-wrap">
       <form method="post" action="https://api.web3forms.com/submit">
         <input type="hidden" name="access_key" value="<?= e(getenv("WEB3FORMS_ACCESS_KEY") ?: "") ?>">
-        <input type="hidden" name="subject" value="New portfolio inquiry">
+        <input type="hidden" name="subject" value="Hello Rhainier! A new opportunity for you!">
         <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="form-status" role="status" id="contact-status" hidden></p>
         <label for="contact-name">Name</label><input id="contact-name" name="name" type="text" autocomplete="name" required>
@@ -158,7 +158,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
       </form>
     </div></section>
   </main>
-  <footer><span>© <?= date("Y") ?> <?= e($name) ?></span><span>Made with PHP, HTML, CSS & JavaScript</span></footer>
+  <footer><span>© <?= date("Y") ?> <?= e($name) ?></span><span>From Valenzuela With Love</span></footer>
 </div>
 <dialog class="lightbox" id="lightbox"><form method="dialog"><button class="lightbox-close" aria-label="Close image">×</button></form><img alt=""><p></p></dialog>
 <a class="back-to-top" href="#home" aria-label="Back to top"><span aria-hidden="true">↑</span><span>Back to top</span></a>
