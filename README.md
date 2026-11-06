@@ -38,7 +38,6 @@ The complete project files are stored in [`assets/Source Codes/`](<assets/Source
 - PHP 8.0 or newer
 - A web browser with JavaScript enabled
 - XAMPP, or another local PHP web server
-- Node.js and npm only if you need to install or maintain the JavaScript package dependency
 
 ## Run with XAMPP
 
@@ -60,15 +59,7 @@ php -S localhost:8000
 
 Then open <http://localhost:8000/>.
 
-## Optional JavaScript dependency setup
-
-The root [`package.json`](package.json) declares GSAP for the project. Install the dependency with:
-
-```bash
-npm install
-```
-
-The portfolio itself is loaded from [`index.php`](index.php), [`portfolio.css`](portfolio.css), and [`portfolio.js`](portfolio.js).
+The portfolio itself is loaded from [`index.php`](index.php), [`portfolio.css`](portfolio.css), and [`portfolio.js`](portfolio.js). Its interactions use browser-native JavaScript and do not require a package install.
 
 ## Contact form
 
@@ -81,7 +72,6 @@ The contact form submits directly from the browser to the Web3Forms HTTPS API, a
 ├── index.php                 # Main portfolio page and contact-form handler
 ├── portfolio.css             # Site styling, responsive layout, and themes
 ├── portfolio.js              # Gallery, carousel, demo, lightbox, and theme behavior
-├── package.json              # Front-end package metadata
 ├── messages.txt              # Legacy local contact log; current form does not write here
 ├── assets/
 │   ├── images/               # Portraits, artwork, and project images
@@ -95,7 +85,7 @@ Artwork sections are populated dynamically by PHP from their categorized folders
 
 Most portfolio text and project metadata are defined near the top of [`index.php`](index.php), including:
 
-- Name, title, tagline, biography, and email address
+- Name, biography, and email address
 - Skills list
 - Featured project descriptions, technologies, features, screenshots, demos, and source files
 

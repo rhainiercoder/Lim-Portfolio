@@ -1,7 +1,5 @@
 <?php
 $name = "Rhainier I. Lim";
-$title = "BSIT Student";
-$tagline = "I build practical software and thoughtful digital experiences.";
 $about = "I'm Rhainier Lim, and my main focus is digital design and art. I’m self-taught in design and artistic practice, where I’ve developed my eye for composition, color, and visual storytelling. My programming knowledge comes from what I’ve learned in school, and I use that foundation to bring my design ideas to life.";
 $email = "rhainierlim07@gmail.com";
 $skills = ["Photo Editing", "Visual Designing", "PHP", "HTML", "CSS", "JavaScript", "Java", "MySQL", "SQLite", "Git"];
@@ -60,7 +58,9 @@ function scanArtwork($folder, $category) {
         $title = preg_replace('/[_-]+/', ' ', $title);
         $title = preg_replace('/\s+\d{8,}$/', '', $title);
         $relative = "assets/images/" . rawurlencode($folder) . "/" . rawurlencode(basename($file));
-        $items[] = ["title" => $title, "image" => $relative, "category" => $category];
+        $dimensions = @getimagesize($file);
+        $ratio = $dimensions && !empty($dimensions[1]) ? $dimensions[0] / $dimensions[1] : 1;
+        $items[] = ["title" => $title, "image" => $relative, "category" => $category, "ratio" => $ratio];
     }
     return $items;
 }
@@ -79,7 +79,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f4ef">
   <title><?= e($name) ?> | Portfolio</title>
-  <link rel="stylesheet" href="portfolio.css?v=20261103m1">
+  <link rel="stylesheet" href="portfolio.css?v=20261107m10">
 </head>
   <body>
   <div class="site-shell">
@@ -88,7 +88,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
       <div class="header-actions">
         <nav class="main-nav" aria-label="Main navigation">
           <a href="#about">About</a>
-          <details class="projects-menu"><summary>Skills <span aria-hidden="true">⌄</span></summary><div class="projects-dropdown"><<a href="#digital">Digital Artworks</a><a href="#game-art">Character Designing</a><a href="#creative">Multimedia Designing</a><a href="#systems">Software Developing</a></div></details>
+          <details class="projects-menu"><summary>Skills <span aria-hidden="true">⌄</span></summary><div class="projects-dropdown"><a href="#digital">Digital Artworks</a><a href="#game-art">Character Designing</a><a href="#creative">Multimedia Designing</a><a href="#systems">Software Developing</a></div></details>
           <a href="#contact">Contact</a>
         </nav>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode"><svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.3 8.3 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg></button>
@@ -115,7 +115,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
       </section>
 
       <?php foreach (["digital" => "Digital Artworks", "creative" => "Multimedia Designing"] as $groupId => $groupTitle): $groupKey = $groupId === "creative" ? "creative" : "digital"; ?>
-      <section class="creative-section section-block artwork-section" id="<?= e($groupId) ?>"><div class="section-heading"><div><p class="eyebrow">Scanned collection · <?= count($artworkGroups[$groupKey]) ?> works</p><h2><?= e($groupTitle) ?>.</h2></div></div><div class="gallery-carousel" data-gallery-carousel><div class="gallery-track"><?php foreach ($artworkGroups[$groupKey] as $art): ?><article class="art-card gallery-slide"><button type="button" class="screenshot-button" data-lightbox="<?= e($art["image"]) ?>" data-caption="<?= e($art["title"]) ?>"><img src="<?= e($art["image"]) ?>" alt="<?= e($art["title"]) ?>" loading="lazy" decoding="async"><span class="zoom-hint">View artwork <span aria-hidden="true">↗</span></span><span class="gallery-selected">Selected work</span></button><h3><?= e($art["title"]) ?></h3><p class="eyebrow"><?= e($art["category"]) ?></p></article><?php endforeach; ?></div><div class="gallery-controls"><button class="arrow-button gallery-prev" type="button" aria-label="Previous image">←</button><button class="arrow-button gallery-next" type="button" aria-label="Next image">→</button><span class="gallery-count">01 / <?= str_pad((string)count($artworkGroups[$groupKey]), 2, "0", STR_PAD_LEFT) ?></span></div></div></section>
+      <section class="creative-section section-block artwork-section" id="<?= e($groupId) ?>"><div class="section-heading"><div><p class="eyebrow">Scanned collection · <?= count($artworkGroups[$groupKey]) ?> works</p><h2><?= e($groupTitle) ?>.</h2></div></div><div class="gallery-carousel" data-gallery-carousel><div class="gallery-track"><?php foreach ($artworkGroups[$groupKey] as $art): ?><article class="art-card gallery-slide"><button type="button" class="screenshot-button" style="--art-ratio: <?= e($art["ratio"]) ?>" data-lightbox="<?= e($art["image"]) ?>" data-caption="<?= e($art["title"]) ?>"><img src="<?= e($art["image"]) ?>" alt="<?= e($art["title"]) ?>" loading="lazy" decoding="async"><span class="zoom-hint">View Work <span aria-hidden="true">↗</span></span><span class="gallery-selected">Selected work</span></button><h3><?= e($art["title"]) ?></h3><p class="eyebrow"><?= e($art["category"]) ?></p></article><?php endforeach; ?></div><div class="gallery-controls"><button class="arrow-button gallery-prev" type="button" aria-label="Previous image">←</button><button class="arrow-button gallery-next" type="button" aria-label="Next image">→</button><span class="gallery-count">01 / <?= str_pad((string)count($artworkGroups[$groupKey]), 2, "0", STR_PAD_LEFT) ?></span></div></div></section>
       <?php endforeach; ?>
 
       <section class="character-section section-block artwork-section" id="game-art"><div class="section-heading"><div><p class="eyebrow">Character roster · <?= count($artworkGroups["game-art"]) ?> designs</p><h2>Character Designing.</h2><p class="section-intro">Browse the roster. Select a character to view the full artwork.</p></div></div><div class="character-carousel" data-character-carousel><div class="character-track"><?php foreach ($artworkGroups["game-art"] as $index => $character): ?><figure class="character-figure"><button type="button" class="character-button" data-lightbox="<?= e($character["image"]) ?>" data-caption="<?= e($character["title"]) ?>"><span class="character-glow" aria-hidden="true"></span><img src="<?= e($character["image"]) ?>" alt="<?= e($character["title"]) ?>" loading="lazy" decoding="async"><span class="character-open">View character ↗</span></button><figcaption><span class="character-number">CHARACTER · <?= str_pad((string)($index + 1), 2, "0", STR_PAD_LEFT) ?></span><span class="character-selected" aria-hidden="true">Selected</span><h3><?= e($character["title"]) ?></h3></figcaption></figure><?php endforeach; ?></div><div class="character-controls"><button class="arrow-button character-prev" type="button" aria-label="Previous characters">←</button><button class="arrow-button character-next" type="button" aria-label="Next characters">→</button><span class="character-count" aria-live="polite"></span></div></div></section>
@@ -125,7 +125,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
         <div class="carousel" id="systems-carousel" aria-roledescription="carousel" aria-label="Featured systems">
           <div class="carousel-track" id="carousel-track">
             <?php foreach ($systems as $index => $system): ?>
-            <article class="system-slide" data-slide="<?= $index ?>" aria-roledescription="slide" aria-label="<?= $index + 1 ?> of <?= count($systems) ?>">
+            <article class="system-slide" id="project-<?= e($system["id"]) ?>" data-slide="<?= $index ?>" aria-roledescription="slide" aria-label="<?= $index + 1 ?> of <?= count($systems) ?>">
               <div class="system-visual"><button type="button" class="screenshot-button" data-lightbox="<?= e($system["image"]) ?>" data-caption="<?= e($system["title"]) ?> — screenshot"><img src="<?= e($system["image"]) ?>" alt="<?= e($system["alt"]) ?>" loading="lazy" decoding="async"><span class="zoom-hint">View screenshot <span aria-hidden="true">↗</span></span></button><span class="visual-index">0<?= $index + 1 ?></span></div>
               <div class="system-content"><p class="eyebrow">Rhainier Lim · Project 0<?= $index + 1 ?> · <?= e($system["kind"]) ?></p><h3><?= e($system["title"]) ?></h3><p class="system-description"><?= e($system["description"]) ?></p>
                 <div class="badge-list" aria-label="Technology stack"><?php foreach ($system["stack"] as $badge): ?><span><?= e($badge) ?></span><?php endforeach; ?></div>
@@ -145,6 +145,7 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
         <a class="contact-link contact-email" href="mailto:<?= e($email) ?>" aria-label="Email <?= e($email) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span><strong>Gmail</strong><small><?= e($email) ?></small></span><span class="contact-arrow" aria-hidden="true">↗</span></a>
         <a class="contact-link" href="https://www.instagram.com/ryuu_064/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="icon-fill" cx="17.5" cy="6.5" r="1"/></svg><span><strong>Instagram</strong><small>@ryuu_064</small></span><span class="contact-arrow" aria-hidden="true">↗</span></a>
         <a class="contact-link" href="https://www.facebook.com/rhainier.lim" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M13.4 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.4v2H7.2V13H10v8z"/></svg><span><strong>Facebook</strong><small>Rhainier Lim</small></span><span class="contact-arrow" aria-hidden="true">↗</span></a>
+        <a class="contact-link" href="https://github.com/rhainiercoder?tab=repositories" target="_blank" rel="noopener noreferrer" aria-label="GitHub repositories"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .1.79 2.19 3.2 1.56.1-.73.4-1.23.72-1.51-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.1-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.16 1.78 1.16 3 0 4.29-2.61 5.24-5.1 5.52.4.35.76 1.02.76 2.06V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z"/></svg><span><strong>GitHub</strong><small>@rhainiercoder</small></span><span class="contact-arrow" aria-hidden="true">↗</span></a>
       </div></div><div class="contact-form-wrap">
         <form method="post" action="https://api.web3forms.com/submit">
           <input type="hidden" name="access_key" value="<?= e(getenv("WEB3FORMS_ACCESS_KEY") ?: "") ?>">
@@ -158,10 +159,20 @@ function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8"
         </form>
       </div></section>
     </main>
-    <footer><span>© <?= date("Y") ?> <?= e($name) ?></span><span>From Valenzuela With Love</span></footer>
+    <footer class="site-footer">
+      <nav class="footer-column" aria-label="Footer navigation"><h2>Navigation</h2><a href="#home">Home</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+      <nav class="footer-column" aria-label="Footer projects"><h2>Projects</h2><a href="#digital">Digital Artworks</a><a href="#creative">Multimedia Designing</a><a href="#game-art">Character Designing</a><a href="#systems">Software Developing</a></nav>
+      <div class="footer-column"><h2>Contacts</h2><div class="footer-contact-icons">
+        <a href="mailto:<?= e($email) ?>" aria-label="Email <?= e($email) ?>" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></a>
+        <a href="https://www.instagram.com/ryuu_064/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="icon-fill" cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="https://www.facebook.com/rhainier.lim" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M13.4 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.4v2H7.2V13H10v8z"/></svg></a>
+        <a href="https://github.com/rhainiercoder?tab=repositories" target="_blank" rel="noopener noreferrer" aria-label="GitHub @rhainiercoder" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .1.79 2.19 3.2 1.56.1-.73.4-1.23.72-1.51-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.1-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.16 1.78 1.16 3 0 4.29-2.61 5.24-5.1 5.52.4.35.76 1.02.76 2.06V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z"/></svg></a>
+      </div></div>
+      <small class="footer-copyright">© <?= date("Y") ?> <?= e($name) ?> · From Valenzuela With Love</small>
+    </footer>
   </div>
   <dialog class="lightbox" id="lightbox"><form method="dialog"><button class="lightbox-close" aria-label="Close image">×</button></form><img alt=""><p></p></dialog>
   <a class="back-to-top" href="#home" aria-label="Back to top"><span aria-hidden="true">↑</span><span>Back to top</span></a>
-  <script src="portfolio.js?v=20261026a19" defer></script>
+  <script src="portfolio.js?v=20261107a2" defer></script>
   </body>
 </html>

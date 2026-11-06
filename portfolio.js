@@ -241,17 +241,26 @@
     const track = gallery.querySelector(".gallery-track");
     const slides = Array.from(gallery.querySelectorAll(".gallery-slide"));
     const count = gallery.querySelector(".gallery-count");
-    let active = Math.floor(slides.length / 2), startX = null, suppressClick = false;
+    let active = 0, startX = null, suppressClick = false;
     function layout() {
       const width = gallery.clientWidth;
-      const slideWidth = width * (window.matchMedia("(max-width: 700px)").matches ? 0.86 : 0.68);
+      const mobile = window.matchMedia("(max-width: 700px)").matches;
+      const slideWidth = width * (mobile ? 0.86 : 0.68);
       track.style.paddingInline = Math.max(0, (width - slideWidth) / 2) + "px";
-      slides.forEach(function (slide) { slide.style.flexBasis = slideWidth + "px"; });
+      slides.forEach(function (slide) {
+        slide.style.flexBasis = slideWidth + "px";
+        if (gallery.closest("#creative")) {
+          const artwork = slide.querySelector(".screenshot-button");
+          const ratio = parseFloat(artwork.style.getPropertyValue("--art-ratio")) || 1;
+          const maxWidth = slideWidth * (mobile ? 0.58 : 0.62);
+          const maxHeight = window.innerHeight * (mobile ? 0.58 : 0.64);
+          artwork.style.width = Math.min(maxWidth, maxHeight * ratio) + "px";
+        }
+      });
       show(active);
     }
     function show(index) {
       active = (index + slides.length) % slides.length;
-      const width = gallery.clientWidth;
       const slideWidth = parseFloat(slides[active].style.flexBasis) || slides[active].getBoundingClientRect().width;
       const offset = active * slideWidth;
       track.style.transform = "translateX(-" + Math.max(0, offset) + "px)";
@@ -289,18 +298,16 @@
     const track = carousel.querySelector(".character-track");
     const slides = Array.from(carousel.querySelectorAll(".character-figure"));
     const count = carousel.querySelector(".character-count");
-    let active = Math.floor(slides.length / 2), step = 0, startX = null, suppressClick = false;
+    let active = 0, startX = null, suppressClick = false;
     function layout() {
       const width = carousel.clientWidth;
       const slideWidth = width * 0.34;
       track.style.paddingInline = Math.max(0, (width - slideWidth) / 2) + "px";
       slides.forEach(function (slide) { slide.style.flexBasis = slideWidth + "px"; });
-      step = slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : slideWidth;
       show(active);
     }
     function show(index) {
       active = (index + slides.length) % slides.length;
-      const width = carousel.clientWidth;
       const slideWidth = parseFloat(slides[active].style.flexBasis) || slides[active].getBoundingClientRect().width;
       const offset = active * slideWidth;
       track.style.transform = "translateX(-" + Math.max(0, offset) + "px)";
